@@ -11,4 +11,8 @@
     <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="8.0.4" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\POC.Common\POC.Common.csproj" />
+  </ItemGroup>
+
 </Project>

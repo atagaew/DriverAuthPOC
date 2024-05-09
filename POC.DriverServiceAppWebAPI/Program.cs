@@ -1,4 +1,5 @@
 using POC.DriverServiceAppWebAPI.Hubs;
+using POC.DriverServiceAppWebAPI.Services;
 
 namespace POC.DriverServiceAppWebAPI
 {
@@ -15,7 +16,13 @@ namespace POC.DriverServiceAppWebAPI
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            var appSettings = new AppSettings();
+            builder.Configuration.GetSection(AppSettings.Section).Bind(appSettings);
+            builder.Services.AddSingleton(appSettings);
+
             builder.Services.AddSignalR();
+
+            builder.Services.AddSingleton<TokenRepository>();
 
             var app = builder.Build();
 
@@ -41,5 +48,14 @@ namespace POC.DriverServiceAppWebAPI
 
             app.Run();
         }
+    }
+
+    public class AppSettings
+    {
+        public static string Section = "AppSettings";
+        public string HubUrl { get; set; }
+        public string CallbackUrl { get; set; }
+        public bool UseSignalR { get; set; }
+        public bool SimulateDelay { get; set; }
     }
 }
