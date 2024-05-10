@@ -4,7 +4,7 @@ namespace POC.DriverServiceAppWebAPI.Services
 {
     public class TokenRepository
     {
-        private ConcurrentDictionary<string, string> _tokenStorage = new ConcurrentDictionary<string, string>();
+        private readonly ConcurrentDictionary<string, string> _tokenStorage = new();
 
         public bool AddToken(string clientId, string token)
         {
@@ -18,6 +18,7 @@ namespace POC.DriverServiceAppWebAPI.Services
                 return token;
             }
 
+            // todo use Results here
             return null;
         }
     }

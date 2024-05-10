@@ -1,4 +1,3 @@
-using POC.DriverServiceAppWebAPI.Hubs;
 using POC.DriverServiceAppWebAPI.Services;
 using System.Reflection;
 
@@ -21,7 +20,6 @@ namespace POC.DriverServiceAppWebAPI
             builder.Configuration.GetSection(AppSettings.Section).Bind(appSettings);
             builder.Services.AddSingleton(appSettings);
 
-            builder.Services.AddSignalR();
             builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
             builder.Services.AddSingleton<TokenRepository>();
@@ -42,7 +40,6 @@ namespace POC.DriverServiceAppWebAPI
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapHub<DriverServiceHub>("/driverServiceHub");
             });
 
             app.MapControllers();
@@ -55,9 +52,7 @@ namespace POC.DriverServiceAppWebAPI
     public class AppSettings
     {
         public static string Section = "AppSettings";
-        public string HubUrl { get; set; }
         public string CallbackUrl { get; set; }
-        public bool UseSignalR { get; set; }
         public bool SimulateDelay { get; set; }
     }
 }

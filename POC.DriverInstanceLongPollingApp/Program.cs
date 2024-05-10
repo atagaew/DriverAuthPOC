@@ -1,6 +1,4 @@
 ﻿using POC.Common;
-using System;
-using System.Net.Http;
 
 namespace POC.DriverInstanceLongPollingApp
 {
@@ -9,7 +7,7 @@ namespace POC.DriverInstanceLongPollingApp
 
         static async Task Main(string[] args)
         {
-            var driverServiceClient = new LongPollingClient();
+            var driverServiceClient = new DriverServiceClient();
 
             var clientId = Guid.NewGuid().ToString();
             Console.Write($"Client {clientId}. Hit Enter to Start ");

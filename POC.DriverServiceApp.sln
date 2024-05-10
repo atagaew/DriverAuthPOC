@@ -5,13 +5,11 @@ VisualStudioVersion = 17.8.34316.72
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "POC.DriverServiceAppWebAPI", "POC.DriverServiceAppWebAPI\POC.DriverServiceAppWebAPI.csproj", "{43C557AC-A55A-4034-8EDB-8C3F2F836365}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "POC.DriverInstanceApp", "POC.DriverInstanceApp\POC.DriverInstanceApp.csproj", "{EFFBD8F3-107F-48DC-A360-5250EFEEF8BE}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "POC.OAuthServiceWebAPI", "POC.OAuthServiceWebAPI\POC.OAuthServiceWebAPI.csproj", "{BFDAA03A-7AC8-479B-8AB2-7A82AA7A0C20}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "POC.DriverInstanceLongPollingApp", "POC.DriverInstanceLongPollingApp\POC.DriverInstanceLongPollingApp.csproj", "{79BE29B5-ECDC-4FC1-9A26-0F405F618012}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "POC.DriverInstanceLongPollingApp", "POC.DriverInstanceLongPollingApp\POC.DriverInstanceLongPollingApp.csproj", "{79BE29B5-ECDC-4FC1-9A26-0F405F618012}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "POC.Common", "POC.Common\POC.Common.csproj", "{EE86C393-1870-4C98-8F60-5D7503A2C378}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "POC.Common", "POC.Common\POC.Common.csproj", "{EE86C393-1870-4C98-8F60-5D7503A2C378}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +21,6 @@ Global
 		{43C557AC-A55A-4034-8EDB-8C3F2F836365}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{43C557AC-A55A-4034-8EDB-8C3F2F836365}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{43C557AC-A55A-4034-8EDB-8C3F2F836365}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EFFBD8F3-107F-48DC-A360-5250EFEEF8BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EFFBD8F3-107F-48DC-A360-5250EFEEF8BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EFFBD8F3-107F-48DC-A360-5250EFEEF8BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EFFBD8F3-107F-48DC-A360-5250EFEEF8BE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BFDAA03A-7AC8-479B-8AB2-7A82AA7A0C20}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BFDAA03A-7AC8-479B-8AB2-7A82AA7A0C20}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BFDAA03A-7AC8-479B-8AB2-7A82AA7A0C20}.Release|Any CPU.ActiveCfg = Release|Any CPU

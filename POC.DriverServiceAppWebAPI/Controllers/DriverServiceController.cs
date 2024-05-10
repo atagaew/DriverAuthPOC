@@ -18,17 +18,6 @@ namespace POC.DriverServiceAppWebAPI.Controllers
             _mediator = mediator;
         }
 
-        [HttpGet("get-hub-connect-url")]
-        public async Task<IActionResult> GetHubConnectUrl()
-        {
-            if (!_appSettings.UseSignalR)
-            {
-                return Forbid();
-            }
-
-            return Ok(_appSettings.HubUrl);
-        }
-
         [HttpGet("publish-token")]
         public async Task PublishToken([FromQuery]PublishTokenQuery request)
         {
