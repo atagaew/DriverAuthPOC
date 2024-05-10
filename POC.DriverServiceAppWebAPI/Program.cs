@@ -1,5 +1,6 @@
 using POC.DriverServiceAppWebAPI.Hubs;
 using POC.DriverServiceAppWebAPI.Services;
+using System.Reflection;
 
 namespace POC.DriverServiceAppWebAPI
 {
@@ -21,6 +22,7 @@ namespace POC.DriverServiceAppWebAPI
             builder.Services.AddSingleton(appSettings);
 
             builder.Services.AddSignalR();
+            builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
             builder.Services.AddSingleton<TokenRepository>();
 

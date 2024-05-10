@@ -1,7 +1,6 @@
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SignalR;
-using POC.DriverServiceAppWebAPI.Hubs;
-using POC.DriverServiceAppWebAPI.Services;
+using POC.DriverServiceAppWebAPI.Models.Handlers;
 
 namespace POC.DriverServiceAppWebAPI.Controllers
 {
@@ -9,15 +8,13 @@ namespace POC.DriverServiceAppWebAPI.Controllers
     [Route("api/[controller]")]
     public class DriverServiceController : ControllerBase
     {
-        private readonly IHubContext<DriverServiceHub> _hubContext;
         private readonly AppSettings _appSettings;
-        private readonly TokenRepository _tokenRepository;
+        private readonly IMediator _mediator;
 
-        public DriverServiceController(IHubContext<DriverServiceHub> hubContext, AppSettings appSettings, TokenRepository tokenRepository)
+        public DriverServiceController(AppSettings appSettings, IMediator mediator)
         {
             _appSettings = appSettings;
-            _tokenRepository = tokenRepository;
-            _hubContext = hubContext;
+            _mediator = mediator;
         }
 
         [HttpGet("get-hub-connect-url")]
@@ -32,33 +29,27 @@ namespace POC.DriverServiceAppWebAPI.Controllers
         }
 
         [HttpGet("publish-token")]
-        public async Task PublishToken(string clientId, string token)
+        public async Task PublishToken([FromQuery]PublishTokenQuery request)
         {
             if (_appSettings.SimulateDelay)
             {
                 await Task.Delay(5000);
             }
 
-            _tokenRepository.AddToken(clientId, token);
-
-            if (_appSettings.UseSignalR)
-            {
-                // todo move to service
-                await _hubContext.Clients.All.SendAsync("Message", "Received Token. Sending to appropriate client");
-                await _hubContext.Clients.Group(clientId).SendAsync("Token", token);
-            }
+            await _mediator.Send(request);
         }
 
         [HttpGet("get-callback-url")]
-        public async Task<string> GetCallbackUrl(string clientId)
+        public async Task<IActionResult> GetCallbackUrl([FromQuery]GetCallbackQuery request)
         {
-            return _appSettings.CallbackUrl.Replace("{replaceClientId}", clientId);
+            var response = await _mediator.Send(request);
+            return Ok(response);
         }
 
         [HttpGet("get-token")]
-        public async Task<IActionResult> GetToken(string clientId)
+        public async Task<IActionResult> GetToken([FromQuery]GetTokenQuery request)
         {
-            var token = _tokenRepository.GetToken(clientId);
+            var token = await _mediator.Send(request);
             if (token == null)
             {
                 return NotFound();

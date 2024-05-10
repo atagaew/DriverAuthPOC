@@ -1,30 +1,47 @@
 ﻿using POC.Common;
 using System;
+using System.Net.Http;
 
 namespace POC.DriverInstanceLongPollingApp
 {
     public class Program
     {
+
         static async Task Main(string[] args)
         {
-            var httpClient = new HttpClient();
-            httpClient.BaseAddress = new Uri("http://localhost:5555/api/driverservice/");
+            var driverServiceClient = new LongPollingClient();
 
             var clientId = Guid.NewGuid().ToString();
             Console.Write($"Client {clientId}. Hit Enter to Start ");
             Console.ReadLine();
 
             Console.Write("Getting callback url from Driver Service...");
-            var urlResponse = await httpClient.GetAsync($"get-callback-url?clientId={clientId}");
-            if (!urlResponse.IsSuccessStatusCode)
+            var callbackUrl = await driverServiceClient.GetCallbackUrlAsync(clientId);
+            if (string.IsNullOrEmpty(callbackUrl))
             {
                 Console.WriteLine($"failed! Try again later");
-                return;    
+                return;
+            }
+            Console.WriteLine($"success!\nUrl: {callbackUrl}\n");
+
+            await LoginToOAuthService(callbackUrl);
+
+            var token = await driverServiceClient.GetToken(clientId);
+            if (!string.IsNullOrWhiteSpace(token))
+            {
+                Console.WriteLine("Start working with token...");
+            }
+            else
+            {
+                Console.WriteLine("Getting token from server failed. Finishing...");
             }
 
-            var callbackUrl = await urlResponse.Content.ReadAsStringAsync();
-            Console.WriteLine($"success! Url: {callbackUrl}\n");
+            Console.Write("Hit Enter to exit ");
+            Console.ReadLine();
+        }
 
+        private static async Task LoginToOAuthService(string callbackUrl)
+        {
             var loginUtl = new LoginUtility();
             (string userName, string password) = loginUtl.ShowLoginForm();
 
@@ -39,30 +56,7 @@ namespace POC.DriverInstanceLongPollingApp
                 }
             }
             Console.WriteLine("Successfully logged in!");
-
-
-            var isTokenReceived = false;
-            var counter = 1;
-            while (!isTokenReceived)
-            {
-                Console.Write($"{counter} Attempt to get token...");
-                var tokenResponse = await httpClient.GetAsync($"get-token?clientId={clientId}");
-                isTokenReceived = tokenResponse.IsSuccessStatusCode;
-                if (isTokenReceived)
-                {
-                    var token = await tokenResponse.Content.ReadAsStringAsync();
-                    Console.WriteLine($"success! Received token from server: [{token}]");
-                }
-                else
-                {
-                    Console.WriteLine($"no data.");
-                    counter++;
-                    await Task.Delay(1000);
-                }
-            }
-
-            Console.Write("Hit Enter to exit ");
-            Console.ReadLine();
         }
+
     }
 }
