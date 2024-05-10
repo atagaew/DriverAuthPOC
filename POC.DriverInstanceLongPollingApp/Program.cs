@@ -26,6 +26,7 @@ namespace POC.DriverInstanceLongPollingApp
 
             await LoginToOAuthService(callbackUrl);
 
+            // todo wait for token in a separate thread and allow user to cancel and retry using input 
             var token = await driverServiceClient.GetToken(clientId);
             if (!string.IsNullOrWhiteSpace(token))
             {

@@ -1,4 +1,5 @@
-using POC.OAuthServiceWebAPI.Nowy_folder;
+using POC.OAuthServiceWebAPI.Services;
+using System.Reflection;
 
 namespace POC.OAuthServiceWebAPI
 {
@@ -15,7 +16,10 @@ namespace POC.OAuthServiceWebAPI
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+
             builder.Services.AddTransient<UserRepository>();
+            builder.Services.AddTransient<TokenService>();
 
             var app = builder.Build();
 

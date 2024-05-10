@@ -31,7 +31,6 @@ namespace POC.DriverServiceAppWebAPI.Models.Handlers
 
             if (_appSettings.UseSignalR)
             {
-                // todo move to service
                 await _hubContext.Clients.All.SendAsync("Message", "Received Token. Sending to appropriate client");
                 await _hubContext.Clients.Group(request.ClientId).SendAsync("Token", request.Token);
             }

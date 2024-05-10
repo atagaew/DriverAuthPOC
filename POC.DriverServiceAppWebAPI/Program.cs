@@ -45,13 +45,13 @@ namespace POC.DriverServiceAppWebAPI
                 endpoints.MapHub<DriverServiceHub>("/driverServiceHub");
             });
 
-
             app.MapControllers();
 
             app.Run();
         }
     }
 
+    // todo rename to AuthorizationSettings and move to separate class
     public class AppSettings
     {
         public static string Section = "AppSettings";

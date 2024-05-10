@@ -2,6 +2,7 @@
 {
     public class LongPollingClient
     {
+        // todo use dependency injection to get httpclient from pool
         private static readonly HttpClient _client = new HttpClient() { BaseAddress = new Uri("http://localhost:5555/api/driverservice/") };
 
         public async Task<string> GetCallbackUrlAsync(string clientId)

@@ -5,6 +5,7 @@ namespace POC.Common
 {
     public class OAuthServiceClient
     {
+        //todo use IOC
         private static readonly HttpClient _httpClient = new HttpClient();
 
         public async Task<bool> LoginAsync(string? userName, string? password, string oauthurl)

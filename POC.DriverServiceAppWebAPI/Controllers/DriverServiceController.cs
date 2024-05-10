@@ -4,6 +4,7 @@ using POC.DriverServiceAppWebAPI.Models.Handlers;
 
 namespace POC.DriverServiceAppWebAPI.Controllers
 {
+    // todo rename to be better rest API 
     [ApiController]
     [Route("api/[controller]")]
     public class DriverServiceController : ControllerBase
@@ -39,6 +40,7 @@ namespace POC.DriverServiceAppWebAPI.Controllers
             await _mediator.Send(request);
         }
 
+        // todo rename to be better rest API 
         [HttpGet("get-callback-url")]
         public async Task<IActionResult> GetCallbackUrl([FromQuery]GetCallbackQuery request)
         {

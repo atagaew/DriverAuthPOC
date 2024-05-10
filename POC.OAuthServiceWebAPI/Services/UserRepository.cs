@@ -1,14 +1,14 @@
 ﻿using POC.Common;
 
-namespace POC.OAuthServiceWebAPI.Nowy_folder
+namespace POC.OAuthServiceWebAPI.Services
 {
     public class UserRepository
     {
         private static readonly List<UserInfo> _users = new List<UserInfo>
         {
-            new ("admin", "12345", "AdminToken"),
-            new ("manager", "54321", "ManagerToken"),
-            new ("employee", "11111", "EmployeeToken"),
+            new ("admin", "12345"),
+            new ("manager", "54321"),
+            new ("employee", "11111"),
         };
 
         public UserInfo? Find(string username, string password)
