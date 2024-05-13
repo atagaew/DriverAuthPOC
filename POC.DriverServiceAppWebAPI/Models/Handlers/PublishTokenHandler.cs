@@ -13,12 +13,10 @@ namespace POC.DriverServiceAppWebAPI.Models.Handlers
     public class PublishTokenHandler : IRequestHandler<PublishTokenQuery>
     {
         private readonly TokenRepository _tokenRepository;
-        private readonly AppSettings _appSettings;
 
-        public PublishTokenHandler(TokenRepository tokenRepository, AppSettings appSettings)
+        public PublishTokenHandler(TokenRepository tokenRepository)
         {
             _tokenRepository = tokenRepository;
-            _appSettings = appSettings;
         }
 
         public async Task Handle(PublishTokenQuery request, CancellationToken cancellationToken)

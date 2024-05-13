@@ -7,31 +7,65 @@ namespace POC.DemoApp
         static void Main(string[] args)
         {
             Console.WriteLine("Started demo application");
-            Console.Write("How many driver instances you want to run: ");
-            int instances = int.Parse(Console.ReadLine());
+            RunDriverInstances();
+            Console.WriteLine("All instances started.\n");
+
+            while (true)
+            {
+                Console.Write("Do you want to run more instances? y\\n");
+                var userInput = Console.ReadLine();
+                if ("n".Equals(userInput, StringComparison.OrdinalIgnoreCase))
+                {
+                    break;
+                }
+
+                RunDriverInstances();
+            }
+
+            Console.WriteLine("Hit Enter to exit");
+            Console.ReadKey();
+        }
+
+        private static void RunDriverInstances()
+        {
+            var instances = new List<DriverInstances>();
+            Console.WriteLine("Type, how many driver instances you want to run: ");
+            Console.Write("admin: ");
+            int adminInstances = int.Parse(Console.ReadLine());
+            instances.Add(new DriverInstances { Type = "admin 12345", Quantity = adminInstances });
+            Console.Write("manager: ");
+            int managerInstances = int.Parse(Console.ReadLine());
+            instances.Add(new DriverInstances { Type = "manager 54321", Quantity = managerInstances });
+            Console.Write("employee: ");
+            int employeeInstances = int.Parse(Console.ReadLine());
+            instances.Add(new DriverInstances { Type = "employee 11111", Quantity = employeeInstances });
 
             try
             {
-                for (int i = 0; i < instances; i++)
+                foreach (var instance in instances)
                 {
-                    // Create a new process
-                    Process process = new Process();
-
-                    // Configure the process start information
-                    ProcessStartInfo startInfo = new ProcessStartInfo
+                    for (int i = 0; i < instance.Quantity; i++)
                     {
-                        FileName = "POC.DriverInstanceLongPollingApp.exe",
-                        UseShellExecute = true,
-                        CreateNoWindow = false // Set this to true if you don't want a visible window for each instance
-                    };
+                        // Create a new process
+                        Process process = new();
 
-                    // Assign startInfo to the process
-                    process.StartInfo = startInfo;
+                        // Configure the process start information
+                        ProcessStartInfo startInfo = new()
+                        {
+                            FileName = "POC.DriverInstanceLongPollingApp.exe",
+                            Arguments = instance.Type,
+                            UseShellExecute = true,
+                            CreateNoWindow = false // Set this to true if you don't want a visible window for each instance
+                        };
 
-                    // Start the process
-                    process.Start();
+                        // Assign startInfo to the process
+                        process.StartInfo = startInfo;
 
-                    Console.WriteLine($"Instance {i + 1} started.");
+                        // Start the process
+                        process.Start();
+
+                        Console.WriteLine($"Instance {instance.Type} started.");
+                    }
                 }
             }
             catch (Exception ex)
@@ -39,9 +73,12 @@ namespace POC.DemoApp
 
                 Console.WriteLine(ex);
             }
-
-            Console.WriteLine("All instances started. Press any key to exit.");
-            Console.ReadKey();
         }
+    }
+
+    class DriverInstances
+    {
+        public string Type { get; set; }
+        public int Quantity { get; set; }
     }
 }

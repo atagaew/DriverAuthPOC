@@ -1,4 +1,5 @@
 using POC.DriverServiceAppWebAPI.Services;
+using Serilog;
 using System.Reflection;
 
 namespace POC.DriverServiceAppWebAPI
@@ -19,6 +20,11 @@ namespace POC.DriverServiceAppWebAPI
             var appSettings = new AppSettings();
             builder.Configuration.GetSection(AppSettings.Section).Bind(appSettings);
             builder.Services.AddSingleton(appSettings);
+
+            Log.Logger = new LoggerConfiguration()
+                .ReadFrom.Configuration(builder.Configuration)
+                .CreateLogger();
+            builder.Host.UseSerilog(); // Use Serilog for logging
 
             builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 

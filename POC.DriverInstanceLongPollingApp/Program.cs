@@ -8,19 +8,22 @@ namespace POC.DriverInstanceLongPollingApp
 
         static async Task Main(string[] args)
         {
-            IConfiguration configuration = new ConfigurationBuilder()
-            .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-            .Build();
-
-            var settings = new ConfigSettings();
-            configuration.GetSection("ConfigSettings").Bind(settings);
+            var autologin = false;
+            var username = string.Empty;
+            var password = string.Empty;
+            if (args.Length == 2)
+            {
+                autologin = true;
+                username = args[0];
+                password = args[1];
+            }
 
             var driverServiceClient = new DriverServiceClient();
 
             var clientId = Guid.NewGuid().ToString();
-            if (settings.UseAutoMode)
+            if (autologin)
             {
-                Console.WriteLine($"Client {clientId} started");
+                Console.WriteLine($"Client {username} {clientId} started");
             }
             else
             {
@@ -37,7 +40,7 @@ namespace POC.DriverInstanceLongPollingApp
             }
             Console.WriteLine($"success!\nUrl: {callbackUrl}\n");
 
-            await LoginToOAuthService(callbackUrl, settings);
+            await LoginToOAuthService(callbackUrl, autologin, username, password);
 
             // todo wait for token in a separate thread and allow user to cancel and retry using input 
             var token = await driverServiceClient.GetToken(clientId);
@@ -54,10 +57,10 @@ namespace POC.DriverInstanceLongPollingApp
             Console.ReadLine();
         }
 
-        private static async Task LoginToOAuthService(string callbackUrl, ConfigSettings settings)
+        private static async Task LoginToOAuthService(string callbackUrl, bool autologin = false, string name = "", string pass = "")
         {
             var loginUtl = new LoginUtility();
-            (string userName, string password) = settings.UseAutoMode ? ("admin", "12345") : loginUtl.ShowLoginForm();
+            (string userName, string password) = autologin ? (name, pass) : loginUtl.ShowLoginForm();
 
             var oAuthService = new OAuthServiceClient();
             var isLoggedIn = false;
