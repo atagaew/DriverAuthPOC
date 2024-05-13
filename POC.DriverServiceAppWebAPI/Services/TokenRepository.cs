@@ -27,7 +27,7 @@ namespace POC.DriverServiceAppWebAPI.Services
 
         public string GetToken(string clientId)
         {
-            if (_tokenStorage.TryGetValue(clientId, out var token))
+            if (_tokenStorage.TryRemove(clientId, out var token))
             {
                 return token;
             }

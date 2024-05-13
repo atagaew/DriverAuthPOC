@@ -23,7 +23,7 @@ namespace POC.DriverServiceAppWebAPI.Controllers
         {
             if (_appSettings.SimulateDelay)
             {
-                await Task.Delay(5000);
+                await Task.Delay(new Random().Next(1, 15) * 1000);
             }
 
             await _mediator.Send(request);

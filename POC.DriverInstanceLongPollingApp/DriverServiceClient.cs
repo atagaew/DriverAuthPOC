@@ -36,14 +36,7 @@
                 {
                     Console.WriteLine($"no data.");
                     counter++;
-                    if (counter > 10)
-                    {
-                        isTokenReceived = true;
-                    }
-                    else
-                    {
-                        await Task.Delay(1000);
-                    }
+                    await Task.Delay(1000);
                 }
             }
 
