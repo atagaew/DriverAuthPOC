@@ -74,6 +74,5 @@ namespace POC.DriverInstanceLongPollingApp
             }
             Console.WriteLine("Successfully logged in!");
         }
-
     }
 }

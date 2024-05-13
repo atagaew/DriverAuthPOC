@@ -19,7 +19,7 @@ namespace POC.DriverServiceAppWebAPI.Services
 
             if (tokenAdded)
             {
-                LogRepository();
+                ConsoleUtility.DisplayRepository(_tokenStorage);
             }
 
             return tokenAdded;
@@ -34,16 +34,6 @@ namespace POC.DriverServiceAppWebAPI.Services
 
             // todo use Results here
             return null;
-        }
-
-        private void LogRepository()
-        {
-            Console.Clear();
-            Console.WriteLine($"|                 Client                 |                     Token                      |");
-            foreach (var item in _tokenStorage)
-            {
-                Console.WriteLine($"|  {item.Key}  |  {item.Value}  |");
-            }
         }
     }
 }

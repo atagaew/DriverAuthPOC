@@ -30,14 +30,14 @@ namespace POC.DemoApp
         {
             var instances = new List<DriverInstances>();
             Console.WriteLine("Type, how many driver instances you want to run: ");
-            Console.Write("admin: ");
-            int adminInstances = int.Parse(Console.ReadLine());
+            
+            int adminInstances = GetUserInputInstances("admin");
             instances.Add(new DriverInstances { Type = "admin 12345", Quantity = adminInstances });
-            Console.Write("manager: ");
-            int managerInstances = int.Parse(Console.ReadLine());
+
+            int managerInstances = GetUserInputInstances("manager"); ;
             instances.Add(new DriverInstances { Type = "manager 54321", Quantity = managerInstances });
-            Console.Write("employee: ");
-            int employeeInstances = int.Parse(Console.ReadLine());
+
+            int employeeInstances = GetUserInputInstances("employee");
             instances.Add(new DriverInstances { Type = "employee 11111", Quantity = employeeInstances });
 
             try
@@ -64,7 +64,7 @@ namespace POC.DemoApp
                         // Start the process
                         process.Start();
 
-                        Console.WriteLine($"Instance {instance.Type} started.");
+                        Console.WriteLine($"Instance {instance.Type.Split(" ")[0]} started.");
                     }
                 }
             }
@@ -74,11 +74,26 @@ namespace POC.DemoApp
                 Console.WriteLine(ex);
             }
         }
-    }
 
-    class DriverInstances
-    {
-        public string Type { get; set; }
-        public int Quantity { get; set; }
+        private static int GetUserInputInstances(string type)
+        {
+            int result;
+            bool isValidInput = false;
+
+            do
+            {
+                Console.Write($"{type}: ");
+                string input = Console.ReadLine();
+
+                isValidInput = int.TryParse(input, out result);
+
+                if (!isValidInput)
+                {
+                    Console.WriteLine("Invalid input. Please enter a valid number.");
+                }
+            } while (!isValidInput);
+
+            return result;
+        }
     }
 }
