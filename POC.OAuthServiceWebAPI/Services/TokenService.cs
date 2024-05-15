@@ -13,20 +13,26 @@ namespace POC.OAuthServiceWebAPI.Services
                 return;
             }
 
-            var token = GenerateToken(userInfo.UserName);
+            
 
             var uri = new Uri(callbackUrl);
             var queryParameters = System.Web.HttpUtility.ParseQueryString(uri.Query);
             var returnUrl = queryParameters["returnUrl"];
+
+            var token = GenerateToken(returnUrl, userInfo.UserName);
 
             returnUrl += $"&token={token}";
 
             _httpClient.GetAsync(returnUrl);
         }
 
-        private string GenerateToken(string userName) 
+        private string GenerateToken(string returnUrl, string userName) 
         {
-            return $"{userName}-{Guid.NewGuid()}";
+            var uri = new Uri(returnUrl);
+            var queryParameters = System.Web.HttpUtility.ParseQueryString(uri.Query);
+            var clientId = queryParameters["clientId"];
+
+            return $"{clientId}-{userName}-{Guid.NewGuid()}";
         }
     }
 }

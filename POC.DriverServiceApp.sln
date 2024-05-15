@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "POC.Common", "POC.Common\PO
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "POC.DemoApp", "POC.DemoApp\POC.DemoApp.csproj", "{05DA785C-FB35-4C45-8380-2786247DD06C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "POC.DriverInstanceWebSocketApp", "POC.DriverInstanceWebSocketApp\POC.DriverInstanceWebSocketApp.csproj", "{228B77A6-B375-442B-B144-523FCBDCA2C7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{05DA785C-FB35-4C45-8380-2786247DD06C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{05DA785C-FB35-4C45-8380-2786247DD06C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{05DA785C-FB35-4C45-8380-2786247DD06C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{228B77A6-B375-442B-B144-523FCBDCA2C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{228B77A6-B375-442B-B144-523FCBDCA2C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{228B77A6-B375-442B-B144-523FCBDCA2C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{228B77A6-B375-442B-B144-523FCBDCA2C7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -28,16 +28,19 @@ namespace POC.DemoApp
 
         private static void RunDriverInstances()
         {
+            Console.WriteLine("Select connection type to use:\n1 - Web sockets\n2 - Long Polling");
+            var connType = GetUserIntInput("Type: ");
+
             var instances = new List<DriverInstances>();
             Console.WriteLine("Type, how many driver instances you want to run: ");
             
-            int adminInstances = GetUserInputInstances("admin");
+            int adminInstances = GetUserIntInput("admin");
             instances.Add(new DriverInstances { Type = "admin 12345", Quantity = adminInstances });
 
-            int managerInstances = GetUserInputInstances("manager"); ;
+            int managerInstances = GetUserIntInput("manager"); ;
             instances.Add(new DriverInstances { Type = "manager 54321", Quantity = managerInstances });
 
-            int employeeInstances = GetUserInputInstances("employee");
+            int employeeInstances = GetUserIntInput("employee");
             instances.Add(new DriverInstances { Type = "employee 11111", Quantity = employeeInstances });
 
             try
@@ -52,7 +55,7 @@ namespace POC.DemoApp
                         // Configure the process start information
                         ProcessStartInfo startInfo = new()
                         {
-                            FileName = "POC.DriverInstanceLongPollingApp.exe",
+                            FileName = connType == 1 ? "POC.DriverInstanceWebSocketApp.exe" : "POC.DriverInstanceLongPollingApp.exe",
                             Arguments = instance.Type,
                             UseShellExecute = true,
                             CreateNoWindow = false // Set this to true if you don't want a visible window for each instance
@@ -75,7 +78,7 @@ namespace POC.DemoApp
             }
         }
 
-        private static int GetUserInputInstances(string type)
+        private static int GetUserIntInput(string type)
         {
             int result;
             bool isValidInput = false;

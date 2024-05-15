@@ -8,8 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\POC.DriverInstanceLongPollingApp\POC.DriverInstanceLongPollingApp.csproj" />
-    <ProjectReference Include="..\POC.DriverInstanceWebSocketApp\POC.DriverInstanceWebSocketApp.csproj" />
+    <ProjectReference Include="..\POC.Common\POC.Common.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,7 +1,6 @@
-﻿using Microsoft.Extensions.Configuration;
-using POC.Common;
+﻿using POC.Common;
 
-namespace POC.DriverInstanceLongPollingApp
+namespace POC.DriverInstanceWebSocketApp
 {
     public class Program
     {
@@ -17,7 +16,7 @@ namespace POC.DriverInstanceLongPollingApp
                 password = args[1];
             }
 
-            var driverServiceClient = new LongPollingDriverServiceClient();
+            var driverServiceClient = new WebSocketDriverServiceClient();
 
             var clientId = Guid.NewGuid().ToString();
             if (autologin)
@@ -39,10 +38,18 @@ namespace POC.DriverInstanceLongPollingApp
             }
             Console.WriteLine($"success!\nUrl: {callbackUrl}\n");
 
+            Console.Write("Connecting to server to receive token...");
+            if (!await driverServiceClient.ConnectToServiceAsync(clientId))
+            {
+                Console.WriteLine($"failed! Try again later");
+                return;
+            }
+            Console.WriteLine("connected!");
+
             await OAuthManager.LoginToOAuthService(callbackUrl, autologin, username, password);
 
             // todo wait for token in a separate thread and allow user to cancel and retry using input 
-            var token = await driverServiceClient.GetToken(clientId);
+            var token = await driverServiceClient.GetToken();
             if (!string.IsNullOrWhiteSpace(token))
             {
                 Console.WriteLine($"Received token: [{token}]");
