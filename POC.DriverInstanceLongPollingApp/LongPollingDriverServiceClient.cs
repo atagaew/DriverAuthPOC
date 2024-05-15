@@ -3,11 +3,18 @@
     public class LongPollingDriverServiceClient
     {
         // todo use dependency injection to get httpclient from pool
-        private static readonly HttpClient _client = new HttpClient() { BaseAddress = new Uri("http://localhost:5555/api/") };
+        private static readonly HttpClient _client = new();
+        private ConfigurationSettings _settings;
+
+        public LongPollingDriverServiceClient(ConfigurationSettings settings)
+        {
+            _client.BaseAddress = new Uri(settings.DriverService.BaseUrl);
+            _settings = settings;
+        }
 
         public async Task<string> GetCallbackUrlAsync(string clientId)
         {
-            var urlResponse = await _client.GetAsync($"callbackurl?clientId={clientId}&type=lp");
+            var urlResponse = await _client.GetAsync(_settings.DriverService.CallbackUrlEndpoint.Replace("{{clientId}}", clientId));
             if (!urlResponse.IsSuccessStatusCode)
             {
                 return string.Empty;
@@ -24,7 +31,7 @@
             while (!isTokenReceived)
             {
                 Console.Write($"{counter} Attempt to get token...");
-                var tokenResponse = await _client.GetAsync($"token?clientId={clientId}");
+                var tokenResponse = await _client.GetAsync(_settings.DriverService.TokenUrlEndpoint.Replace("{{clientId}}", clientId));
                 isTokenReceived = tokenResponse.IsSuccessStatusCode;
                 if (isTokenReceived)
                 {
@@ -36,7 +43,7 @@
                 {
                     Console.WriteLine($"no data.");
                     counter++;
-                    await Task.Delay(1000);
+                    await Task.Delay(_settings.LongPollingDelay);
                 }
             }
 

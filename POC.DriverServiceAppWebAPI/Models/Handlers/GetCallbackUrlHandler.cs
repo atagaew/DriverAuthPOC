@@ -10,9 +10,9 @@ namespace POC.DriverServiceAppWebAPI.Models.Handlers
 
     public class GetCallbackUrlHandler : IRequestHandler<GetCallbackQuery, string>
     {
-        private readonly AppSettings _appSettings;
+        private readonly ConfigurationSettings _appSettings;
 
-        public GetCallbackUrlHandler(AppSettings appSettings)
+        public GetCallbackUrlHandler(ConfigurationSettings appSettings)
         {
             _appSettings = appSettings;
         }

@@ -1,22 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.WebSockets;
+﻿using System.Net.WebSockets;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace POC.DriverInstanceWebSocketApp
 {
     public class WebSocketDriverServiceClient
     {
-
         // todo use dependency injection to get httpclient from pool
-        private static readonly HttpClient _httpClient = new HttpClient() { BaseAddress = new Uri("http://localhost:5555/api/callbackurl") };
-        private static readonly ClientWebSocket _wsClient = new ClientWebSocket();
+        private static readonly HttpClient _httpClient = new();
+        private static readonly ClientWebSocket _wsClient = new();
+        private ConfigurationSettings _settings;
+
+        public WebSocketDriverServiceClient(ConfigurationSettings settings)
+        {
+            _httpClient.BaseAddress = new Uri(settings.DriverService.BaseUrl);
+            _settings = settings;
+        }
 
         public async Task<string> GetCallbackUrlAsync(string clientId)
         {
-            var urlResponse = await _httpClient.GetAsync($"?clientId={clientId}&type=ws");
+            var urlResponse = await _httpClient.GetAsync(_settings.DriverService.CallbackUrlEndpoint.Replace("{{clientId}}", clientId));
             if (!urlResponse.IsSuccessStatusCode)
             {
                 return string.Empty;
@@ -31,7 +33,7 @@ namespace POC.DriverInstanceWebSocketApp
         {
             try
             {
-                await _wsClient.ConnectAsync(new Uri($"ws://localhost:5555/ws/token?clientId={clientId}"), CancellationToken.None);
+                await _wsClient.ConnectAsync(new Uri(_settings.DriverService.TokenUrlEndpoint.Replace("{{clientId}}", clientId)), CancellationToken.None);
                 return true;
             }
             catch (Exception)

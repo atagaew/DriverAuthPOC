@@ -1,0 +1,10 @@
+{
+  "ConfigurationSettings": {
+    "OAuthUrl": "http://localhost:7777/api/authentication/login",
+    "DriverService": {
+      "BaseUrl": "http://localhost:5555/api/",
+      "CallbackUrlEndpoint": "callbackurl?clientId={{clientId}}&type=ws",
+      "TokenUrlEndpoint": "ws://localhost:5555/ws/token?clientId={{clientId}}"
+    }
+  }
+}

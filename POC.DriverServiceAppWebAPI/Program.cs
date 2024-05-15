@@ -20,8 +20,8 @@ namespace POC.DriverServiceAppWebAPI
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-            var appSettings = new AppSettings();
-            builder.Configuration.GetSection(AppSettings.Section).Bind(appSettings);
+            var appSettings = new ConfigurationSettings();
+            builder.Configuration.GetSection(ConfigurationSettings.Section).Bind(appSettings);
             builder.Services.AddSingleton(appSettings);
 
             Log.Logger = new LoggerConfiguration()
@@ -95,14 +95,5 @@ namespace POC.DriverServiceAppWebAPI
                 handleMessage(result, buffer);
             }
         }
-    }
-
-    // todo rename to AuthorizationSettings and move to separate class
-    public class AppSettings
-    {
-        public static string Section = "AppSettings";
-        public string CallbackUrlLp { get; set; }
-        public string CallbackUrlWs { get; set; }
-        public bool SimulateDelay { get; set; }
     }
 }

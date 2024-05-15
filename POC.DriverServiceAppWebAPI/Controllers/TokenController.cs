@@ -12,11 +12,11 @@ namespace POC.DriverServiceAppWebAPI.Controllers
     [Route("api/[controller]")]
     public class TokenController : ControllerBase
     {
-        private readonly AppSettings _appSettings;
+        private readonly ConfigurationSettings _appSettings;
         private readonly IMediator _mediator;
         private readonly WebSocketConnectionsService _connectionService;
 
-        public TokenController(AppSettings appSettings, IMediator mediator, WebSocketConnectionsService connectionService)
+        public TokenController(ConfigurationSettings appSettings, IMediator mediator, WebSocketConnectionsService connectionService)
         {
             _appSettings = appSettings;
             _mediator = mediator;
@@ -38,22 +38,12 @@ namespace POC.DriverServiceAppWebAPI.Controllers
         [HttpGet("lp/publish")]
         public async Task PublishToken([FromQuery] PublishTokenQuery request)
         {
-            if (_appSettings.SimulateDelay)
-            {
-                await Task.Delay(new Random().Next(1, 15) * 1000);
-            }
-
             await _mediator.Send(request);
         }
 
         [HttpGet("ws/publish")]
         public async Task PublishToken([FromQuery] string clientId, [FromQuery] string token)
         {
-            if (_appSettings.SimulateDelay)
-            {
-                await Task.Delay(new Random().Next(1, 15) * 1000);
-            }
-
             await SenTokenToClientAsync(clientId, token);
         }
 

@@ -18,6 +18,10 @@ namespace POC.OAuthServiceWebAPI
 
             builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
+            var settings = new ConfigurationSettings();
+            builder.Configuration.GetSection(ConfigurationSettings.SectionName).Bind(settings);
+            builder.Services.AddSingleton(settings);
+
             builder.Services.AddTransient<UserRepository>();
             builder.Services.AddTransient<TokenService>();
 

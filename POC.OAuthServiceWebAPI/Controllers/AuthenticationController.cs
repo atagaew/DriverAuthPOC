@@ -11,11 +11,13 @@ namespace POC.OAuthServiceWebAPI.Controllers
     {
         private readonly IMediator _mediator;
         private readonly TokenService _tokenService;
+        private readonly ConfigurationSettings _settings;
 
-        public AuthenticationController(IMediator mediator, TokenService tokenService)
+        public AuthenticationController(IMediator mediator, TokenService tokenService, ConfigurationSettings settings)
         {
             _mediator = mediator;
             _tokenService = tokenService;
+            _settings = settings;
         }
 
         [HttpPost("login")]
@@ -26,6 +28,8 @@ namespace POC.OAuthServiceWebAPI.Controllers
             {
                 return BadRequest();
             }
+
+            await Task.Delay(new Random().Next(0, _settings.SimulateDelay));
 
             _tokenService.PublishUserToken(request.CallbackUrl, user);
 

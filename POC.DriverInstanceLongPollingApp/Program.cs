@@ -7,6 +7,12 @@ namespace POC.DriverInstanceLongPollingApp
     {
         static async Task Main(string[] args)
         {
+            IConfiguration configuration = new ConfigurationBuilder()
+                .AddJsonFile("lpAppsettings.json", optional: true, reloadOnChange: true)
+                .Build();
+            var settings = new ConfigurationSettings();
+            configuration.GetSection(ConfigurationSettings.SectionName).Bind(settings);
+
             var autologin = false;
             var username = string.Empty;
             var password = string.Empty;
@@ -17,7 +23,7 @@ namespace POC.DriverInstanceLongPollingApp
                 password = args[1];
             }
 
-            var driverServiceClient = new LongPollingDriverServiceClient();
+            var driverServiceClient = new LongPollingDriverServiceClient(settings);
 
             var clientId = Guid.NewGuid().ToString();
             if (autologin)
@@ -37,9 +43,10 @@ namespace POC.DriverInstanceLongPollingApp
                 Console.WriteLine($"failed! Try again later");
                 return;
             }
-            Console.WriteLine($"success!\nUrl: {callbackUrl}\n");
+            Console.WriteLine($"success!\nCallbackUrl: {callbackUrl}\n");
 
-            await OAuthManager.LoginToOAuthService(callbackUrl, autologin, username, password);
+            var loginUrl = $"{settings.OAuthUrl}?returnUrl={callbackUrl}";
+            await OAuthManager.LoginToOAuthService(loginUrl, autologin, username, password);
 
             // todo wait for token in a separate thread and allow user to cancel and retry using input 
             var token = await driverServiceClient.GetToken(clientId);

@@ -13,8 +13,6 @@ namespace POC.OAuthServiceWebAPI.Services
                 return;
             }
 
-            
-
             var uri = new Uri(callbackUrl);
             var queryParameters = System.Web.HttpUtility.ParseQueryString(uri.Query);
             var returnUrl = queryParameters["returnUrl"];
